@@ -39,11 +39,16 @@ type Task = {
   const getTask = async() => {
     const newTask = await AsyncStorage.getItem("tasks");
 
-    if(newTask != null){
-      const parsedTasks = JSON.parse(newTask);
-
-      setStoredTasks(parsedTasks)
+   if (newTask) {
+    try {
+      const parsedTasks: Task[] = JSON.parse(newTask);
+      setStoredTasks(parsedTasks);
+    } catch (e) {
+      setStoredTasks([]);
     }
+  } else {
+    setStoredTasks([]); 
+  }
   }
 
   const toggleTask = async (id: number) => {
